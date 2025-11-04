@@ -59,8 +59,8 @@ export default function DashboardPage() {
    * 
    * This function:
    * 1. Fetches the Clerk session token from /api/token
-   * 2. Stores it in chrome.storage.local with key 'clerkToken'
-   * 3. The extension can then access this token and use it for all backend requests
+   * 2. Sends it to the extension via window.postMessage
+   * 3. The extension's content script stores it in chrome.storage.local
    * 
    * The extension will include this token in the Authorization header:
    * ```
@@ -72,40 +72,72 @@ export default function DashboardPage() {
     setMessage(null)
 
     try {
-      // Check if running in a Chrome extension context
-      const chromeStorage = (window as any).chrome?.storage
-      
-      if (chromeStorage) {
-        // Fetch the session token from our API
-        const response = await fetch('/api/token')
+      // Fetch the session token from our API
+      const response = await fetch('/api/token')
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch token')
+      if (!response.ok) {
+        throw new Error('Failed to fetch token')
+      }
+
+      const { token } = await response.json()
+
+      console.log('📤 Sending token to extension via postMessage...', {
+        tokenLength: token.length,
+        tokenPreview: token.substring(0, 30) + '...'
+      })
+
+      // Set up listener for response from extension
+      const messageHandler = (event: MessageEvent) => {
+        // Only accept messages from same origin
+        if (event.origin !== window.location.origin) {
+          return
         }
 
-        const { token } = await response.json()
+        const { type, success, error } = event.data
 
-        // Store token in Chrome local storage
-        chromeStorage.local.set(
-          { 
-            clerkToken: token,
-            clerkTokenTimestamp: new Date().toISOString(),
-          },
-          () => {
+        if (type === 'REPLIER_EXTENSION_RESPONSE') {
+          console.log('📨 Received response from extension:', event.data)
+
+          // Remove listener
+          window.removeEventListener('message', messageHandler)
+
+          if (success) {
             setMessage({
               type: 'success',
               text: '✅ Token sent to extension! You can now use the extension with your account.',
             })
-            setTokenLoading(false)
+          } else {
+            setMessage({
+              type: 'error',
+              text: `❌ Extension failed to store token: ${error || 'Unknown error'}`,
+            })
           }
-        )
-      } else {
-        setMessage({
-          type: 'error',
-          text: '❌ Chrome storage API not available. Make sure you are running this in your browser (not in an embedded frame).',
-        })
-        setTokenLoading(false)
+          setTokenLoading(false)
+        }
       }
+
+      // Listen for response
+      window.addEventListener('message', messageHandler)
+
+      // Send token to extension content script
+      window.postMessage({
+        type: 'REPLIER_EXTENSION',
+        action: 'STORE_TOKEN',
+        token: token,
+      }, window.location.origin)
+
+      // Set timeout in case no response
+      setTimeout(() => {
+        window.removeEventListener('message', messageHandler)
+        if (tokenLoading) {
+          setMessage({
+            type: 'error',
+            text: '❌ Extension did not respond. Make sure the Replier Chrome extension is installed and enabled. Try refreshing the page.',
+          })
+          setTokenLoading(false)
+        }
+      }, 5000)
+
     } catch (error) {
       console.error('Error sending token to extension:', error)
       setMessage({
