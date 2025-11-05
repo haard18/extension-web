@@ -86,57 +86,64 @@ export default function DashboardPage() {
         tokenPreview: token.substring(0, 30) + '...'
       })
 
-      // Set up listener for response from extension
-      const messageHandler = (event: MessageEvent) => {
-        // Only accept messages from same origin
-        if (event.origin !== window.location.origin) {
-          return
-        }
+      // Create a promise that resolves when we get a response or timeout
+      const tokenPromise = new Promise<void>((resolve, reject) => {
+        let messageHandler: ((event: MessageEvent) => void) | null = null
+        let timeoutId: NodeJS.Timeout | null = null
 
-        const { type, success, error } = event.data
-
-        if (type === 'REPLIER_EXTENSION_RESPONSE') {
-          console.log('📨 Received response from extension:', event.data)
-
-          // Remove listener
-          window.removeEventListener('message', messageHandler)
-
-          if (success) {
-            setMessage({
-              type: 'success',
-              text: '✅ Token sent to extension! You can now use the extension with your account.',
-            })
-          } else {
-            setMessage({
-              type: 'error',
-              text: `❌ Extension failed to store token: ${error || 'Unknown error'}`,
-            })
+        const cleanup = () => {
+          if (messageHandler) {
+            window.removeEventListener('message', messageHandler)
           }
-          setTokenLoading(false)
+          if (timeoutId) {
+            clearTimeout(timeoutId)
+          }
         }
-      }
 
-      // Listen for response
-      window.addEventListener('message', messageHandler)
+        messageHandler = (event: MessageEvent) => {
+          // Only accept messages from same origin
+          if (event.origin !== window.location.origin) {
+            return
+          }
 
-      // Send token to extension content script
-      window.postMessage({
-        type: 'REPLIER_EXTENSION',
-        action: 'STORE_TOKEN',
-        token: token,
-      }, window.location.origin)
+          const { type, success, error } = event.data
 
-      // Set timeout in case no response
-      setTimeout(() => {
-        window.removeEventListener('message', messageHandler)
-        if (tokenLoading) {
-          setMessage({
-            type: 'error',
-            text: '❌ Extension did not respond. Make sure the Replier Chrome extension is installed and enabled. Try refreshing the page.',
-          })
-          setTokenLoading(false)
+          if (type === 'REPLIER_EXTENSION_RESPONSE') {
+            console.log('📨 Received response from extension:', event.data)
+            cleanup()
+
+            if (success) {
+              resolve()
+            } else {
+              reject(new Error(error || 'Extension failed to store token'))
+            }
+          }
         }
-      }, 5000)
+
+        // Listen for response
+        window.addEventListener('message', messageHandler)
+
+        // Set timeout in case no response (10 seconds for prod environments)
+        timeoutId = setTimeout(() => {
+          cleanup()
+          reject(new Error('Extension did not respond within 10 seconds. Make sure the extension is installed and enabled.'))
+        }, 10000)
+
+        // Send token to extension content script
+        window.postMessage({
+          type: 'REPLIER_EXTENSION',
+          action: 'STORE_TOKEN',
+          token: token,
+        }, window.location.origin)
+      })
+
+      // Wait for the response
+      await tokenPromise
+
+      setMessage({
+        type: 'success',
+        text: '✅ Token sent to extension! You can now use the extension with your account.',
+      })
 
     } catch (error) {
       console.error('Error sending token to extension:', error)
@@ -144,6 +151,7 @@ export default function DashboardPage() {
         type: 'error',
         text: `❌ Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
       })
+    } finally {
       setTokenLoading(false)
     }
   }
