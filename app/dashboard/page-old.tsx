@@ -26,12 +26,14 @@ export default function DashboardPage() {
   const [tone, setTone] = useState<'funny' | 'value'>('value')
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
+  // Redirect to sign-in if not authenticated
   useEffect(() => {
     if (isLoaded && !userId) {
       router.push('/sign-in')
     }
   }, [isLoaded, userId, router])
 
+  // Fetch usage stats on load and set up polling
   useEffect(() => {
     if (!userId) return
 
@@ -60,10 +62,15 @@ export default function DashboardPage() {
     }
 
     fetchUsage()
+
+    // Poll every 10 seconds
     const interval = setInterval(fetchUsage, 10000)
     return () => clearInterval(interval)
   }, [userId])
 
+  /**
+   * Send token to Chrome extension
+   */
   async function sendTokenToExtension() {
     setTokenLoading(true)
     setMessage(null)
@@ -76,6 +83,8 @@ export default function DashboardPage() {
       }
 
       const { token } = await response.json()
+
+      console.log('📤 Sending token to extension via postMessage...')
 
       const tokenPromise = new Promise<void>((resolve, reject) => {
         let messageHandler: ((event: MessageEvent) => void) | null = null
@@ -157,6 +166,7 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-slate-900">
+      {/* Navigation */}
       <nav className="bg-slate-950 border-b border-slate-700 sticky top-0 z-10 backdrop-blur-md bg-opacity-80">
         <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
           <Link href="/" className="text-2xl font-bold bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
@@ -173,7 +183,9 @@ export default function DashboardPage() {
         </div>
       </nav>
 
+      {/* Main Content */}
       <main className="max-w-6xl mx-auto px-6 py-12">
+        {/* Welcome Section */}
         <div className="mb-12">
           <h1 className="text-4xl font-bold text-white mb-2">
             Welcome, {user?.firstName || 'User'}! 👋
@@ -183,6 +195,7 @@ export default function DashboardPage() {
           </p>
         </div>
 
+        {/* Message Display */}
         {message && (
           <div className={`mb-6 p-4 rounded-xl border transition-all ${
             message.type === 'success'
@@ -193,9 +206,11 @@ export default function DashboardPage() {
           </div>
         )}
 
+        {/* Two Column Layout */}
         <div className="grid md:grid-cols-3 gap-8">
+          {/* Left Column: Main Content */}
           <div className="md:col-span-2 space-y-8">
-            {/* Usage Stats */}
+            {/* Usage Stats Section */}
             <div className="bg-linear-to-br from-slate-800 to-slate-900 rounded-xl border border-slate-700 p-8 backdrop-blur-md">
               <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
                 <div className="w-10 h-10 bg-linear-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
@@ -208,6 +223,7 @@ export default function DashboardPage() {
 
               {usage ? (
                 <div className="space-y-8">
+                  {/* Daily Quota */}
                   <div>
                     <div className="flex justify-between items-center mb-3">
                       <span className="text-sm font-semibold text-slate-300 uppercase tracking-wide">Daily Replies</span>
@@ -226,6 +242,7 @@ export default function DashboardPage() {
                     </p>
                   </div>
 
+                  {/* Weekly Quota */}
                   <div>
                     <div className="flex justify-between items-center mb-3">
                       <span className="text-sm font-semibold text-slate-300 uppercase tracking-wide">Weekly Replies</span>
@@ -244,6 +261,7 @@ export default function DashboardPage() {
                     </p>
                   </div>
 
+                  {/* Stats Summary */}
                   <div className="grid grid-cols-3 gap-4 pt-4 border-t border-slate-700">
                     <div className="text-center">
                       <p className="text-3xl font-bold text-blue-400">{usage.usage_count}</p>
@@ -277,6 +295,7 @@ export default function DashboardPage() {
               <p className="text-slate-400 mb-6">Choose the style of replies generated for you:</p>
               
               <div className="grid grid-cols-2 gap-4">
+                {/* Value Tone */}
                 <button
                   onClick={() => setTone('value')}
                   className={`p-6 rounded-lg border-2 transition-all ${
@@ -290,6 +309,7 @@ export default function DashboardPage() {
                   <p className="text-sm text-slate-300">Insightful, professional replies that showcase expertise</p>
                 </button>
 
+                {/* Funny Tone */}
                 <button
                   onClick={() => setTone('funny')}
                   className={`p-6 rounded-lg border-2 transition-all ${
@@ -305,7 +325,7 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            {/* Connect Extension */}
+            {/* Connect Extension Section */}
             <div className="bg-linear-to-br from-slate-800 to-slate-900 rounded-xl border border-slate-700 p-8 backdrop-blur-md">
               <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-3">
                 <div className="w-10 h-10 bg-linear-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
@@ -346,7 +366,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Account Info */}
+          {/* Right Column: Account Info */}
           <div>
             <div className="bg-linear-to-br from-slate-800 to-slate-900 rounded-xl border border-slate-700 p-6 sticky top-28 backdrop-blur-md">
               <h2 className="text-xl font-bold text-white mb-6">Account Info</h2>
@@ -380,6 +400,7 @@ export default function DashboardPage() {
                 </div>
 
                 <div className="pt-4 border-t border-slate-700">
+                  <div>
                   <label className="block text-sm font-semibold text-slate-400 mb-2">
                     Plan
                   </label>
