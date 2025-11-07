@@ -156,14 +156,17 @@ export default function DashboardPage() {
   const weeklyPercent = usage ? (usage.weekly_used / usage.weekly_goal) * 100 : 0
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-slate-900">
-      <nav className="bg-slate-950 border-b border-slate-700 sticky top-0 z-10 backdrop-blur-md bg-opacity-80">
+    <div className="min-h-screen bg-background grid-pattern">
+      <nav className="border-b-2 border-border bg-card sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-            🧠 ReplyDash
+          <Link href="/" className="flex items-center gap-3">
+            <div className="text-3xl">💬</div>
+            <span className="text-2xl font-bold font-grotesk">
+              ReplyDash
+            </span>
           </Link>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-slate-400">by Elcara</span>
+            <span className="text-sm font-medium px-4 py-2 bg-muted border-2 border-border shadow-brutal-sm">by Elcara</span>
             <UserButton appearance={{
               elements: {
                 rootBox: "text-slate-200"
@@ -175,154 +178,109 @@ export default function DashboardPage() {
 
       <main className="max-w-6xl mx-auto px-6 py-12">
         <div className="mb-12">
-          <h1 className="text-4xl font-bold text-white mb-2">
-            Welcome, {user?.firstName || 'User'}! 👋
+          <h1 className="text-5xl md:text-6xl font-bold font-grotesk mb-3 uppercase">
+            Hey {user?.firstName || 'User'} 👋
           </h1>
-          <p className="text-lg text-slate-400">
-            Manage your account and connect your Chrome extension
+          <p className="text-2xl font-medium">
+            Let's keep the conversation going
           </p>
         </div>
 
         {message && (
-          <div className={`mb-6 p-4 rounded-xl border transition-all ${
+          <div className={`mb-6 p-4 border-2 border-border shadow-brutal transition-all ${
             message.type === 'success'
-              ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-200'
-              : 'bg-red-500/10 border-red-500/30 text-red-200'
+              ? 'bg-emerald-100 text-emerald-900'
+              : 'bg-red-100 text-red-900'
           }`}>
             {message.text}
           </div>
         )}
 
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="md:col-span-2 space-y-8">
+        <div className="grid lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-8">
             {/* Usage Stats */}
-            <div className="bg-linear-to-br from-slate-800 to-slate-900 rounded-xl border border-slate-700 p-8 backdrop-blur-md">
-              <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
-                <div className="w-10 h-10 bg-linear-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
+            <div className="bg-card border-2 border-border shadow-brutal-lg p-8">
+              <div className="flex items-center gap-3 mb-8">
+                <div className="w-14 h-14 bg-primary border-2 border-border shadow-brutal-sm flex items-center justify-center text-2xl">
+                  📊
                 </div>
-                Your Quota
-              </h2>
+                <h2 className="text-3xl font-bold font-grotesk uppercase">Your Quota</h2>
+              </div>
 
               {usage ? (
                 <div className="space-y-8">
-                  <div>
-                    <div className="flex justify-between items-center mb-3">
-                      <span className="text-sm font-semibold text-slate-300 uppercase tracking-wide">Daily Replies</span>
-                      <span className="text-lg font-bold bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span className="font-bold text-lg uppercase tracking-wide">Daily Replies</span>
+                      <span className="text-3xl font-bold font-grotesk">
                         {usage.daily_used} / {usage.daily_goal}
                       </span>
                     </div>
-                    <div className="w-full bg-slate-700 rounded-full h-3 overflow-hidden">
+                    <div className="h-8 bg-muted border-2 border-border relative overflow-hidden">
                       <div
-                        className="h-full bg-linear-to-r from-blue-500 to-purple-500 transition-all duration-300 rounded-full"
+                        className="h-full bg-primary border-r-2 border-border transition-all duration-500"
                         style={{ width: `${Math.min(100, dailyPercent)}%` }}
                       ></div>
                     </div>
-                    <p className="text-xs text-slate-400 mt-2">
-                      {usage.daily_remaining} remaining today
+                    <p className="text-sm font-medium">
+                      {usage.daily_remaining} replies remaining today
                     </p>
                   </div>
 
-                  <div>
-                    <div className="flex justify-between items-center mb-3">
-                      <span className="text-sm font-semibold text-slate-300 uppercase tracking-wide">Weekly Replies</span>
-                      <span className="text-lg font-bold bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span className="font-bold text-lg uppercase tracking-wide">Weekly Replies</span>
+                      <span className="text-3xl font-bold font-grotesk">
                         {usage.weekly_used} / {usage.weekly_goal}
                       </span>
                     </div>
-                    <div className="w-full bg-slate-700 rounded-full h-3 overflow-hidden">
+                    <div className="h-8 bg-muted border-2 border-border relative overflow-hidden">
                       <div
-                        className="h-full bg-linear-to-r from-blue-500 to-purple-500 transition-all duration-300 rounded-full"
+                        className="h-full bg-secondary border-r-2 border-border transition-all duration-500"
                         style={{ width: `${Math.min(100, weeklyPercent)}%` }}
                       ></div>
                     </div>
-                    <p className="text-xs text-slate-400 mt-2">
-                      {usage.weekly_remaining} remaining this week
+                    <p className="text-sm font-medium">
+                      {usage.weekly_remaining} replies remaining this week
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-4 pt-4 border-t border-slate-700">
-                    <div className="text-center">
-                      <p className="text-3xl font-bold text-blue-400">{usage.usage_count}</p>
-                      <p className="text-xs text-slate-400 mt-1">Total Used</p>
+                  <div className="grid grid-cols-3 gap-4 pt-6 border-t-2 border-border">
+                    <div className="text-center p-4 bg-primary text-primary-foreground border-2 border-border shadow-brutal-sm">
+                      <p className="text-4xl font-bold font-grotesk">{usage.daily_used}</p>
+                      <p className="text-sm font-medium mt-1 uppercase">Today</p>
                     </div>
-                    <div className="text-center">
-                      <p className="text-3xl font-bold text-purple-400">{usage.daily_remaining}</p>
-                      <p className="text-xs text-slate-400 mt-1">Daily Left</p>
+                    <div className="text-center p-4 bg-secondary text-secondary-foreground border-2 border-border shadow-brutal-sm">
+                      <p className="text-4xl font-bold font-grotesk">{usage.weekly_used}</p>
+                      <p className="text-sm font-medium mt-1 uppercase">This Week</p>
                     </div>
-                    <div className="text-center">
-                      <p className="text-3xl font-bold text-pink-400">{usage.weekly_remaining}</p>
-                      <p className="text-xs text-slate-400 mt-1">Weekly Left</p>
+                    <div className="text-center p-4 bg-accent text-accent-foreground border-2 border-border shadow-brutal-sm">
+                      <p className="text-4xl font-bold font-grotesk">{usage.daily_remaining}</p>
+                      <p className="text-sm font-medium mt-1 uppercase">Left</p>
                     </div>
                   </div>
                 </div>
               ) : (
-                <p className="text-slate-400">Loading usage data...</p>
+                <p className="text-muted-foreground">Loading usage data...</p>
               )}
             </div>
 
-            {/* Tone Selector */}
-            <div className="bg-linear-to-br from-slate-800 to-slate-900 rounded-xl border border-slate-700 p-8 backdrop-blur-md">
-              <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                <div className="w-10 h-10 bg-linear-to-br from-amber-500 to-orange-500 rounded-lg flex items-center justify-center">
-                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm0-13c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z"/>
-                  </svg>
-                </div>
-                Reply Tone
-              </h2>
-              <p className="text-slate-400 mb-6">Choose the style of replies generated for you:</p>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <button
-                  onClick={() => setTone('value')}
-                  className={`p-6 rounded-lg border-2 transition-all ${
-                    tone === 'value'
-                      ? 'bg-blue-500/20 border-blue-400 shadow-lg shadow-blue-500/20'
-                      : 'bg-slate-700/50 border-slate-600 hover:border-slate-500'
-                  }`}
-                >
-                  <div className="text-2xl mb-2">💎</div>
-                  <h3 className="font-bold text-white mb-2">Value</h3>
-                  <p className="text-sm text-slate-300">Insightful, professional replies that showcase expertise</p>
-                </button>
-
-                <button
-                  onClick={() => setTone('funny')}
-                  className={`p-6 rounded-lg border-2 transition-all ${
-                    tone === 'funny'
-                      ? 'bg-purple-500/20 border-purple-400 shadow-lg shadow-purple-500/20'
-                      : 'bg-slate-700/50 border-slate-600 hover:border-slate-500'
-                  }`}
-                >
-                  <div className="text-2xl mb-2">🎭</div>
-                  <h3 className="font-bold text-white mb-2">Funny</h3>
-                  <p className="text-sm text-slate-300">Witty, entertaining replies that spark engagement</p>
-                </button>
-              </div>
-            </div>
-
             {/* Connect Extension */}
-            <div className="bg-linear-to-br from-slate-800 to-slate-900 rounded-xl border border-slate-700 p-8 backdrop-blur-md">
-              <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-3">
-                <div className="w-10 h-10 bg-linear-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
+            <div className="bg-card border-2 border-border shadow-brutal-lg p-8">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-14 h-14 bg-[#10B981] border-2 border-border shadow-brutal-sm flex items-center justify-center text-2xl">
+                  ⚡
                 </div>
-                Connect Extension
-              </h2>
+                <h2 className="text-3xl font-bold font-grotesk uppercase">Connect Extension</h2>
+              </div>
 
-              <p className="text-slate-400 mb-6">
+              <p className="text-lg font-medium mb-6">
                 Send your authentication token to your Chrome extension. This enables secure communication with the backend API.
               </p>
 
-              <div className="bg-slate-900/50 border border-slate-700 rounded-lg p-4 mb-6">
-                <h3 className="font-semibold text-white mb-3">How it works:</h3>
-                <ol className="space-y-2 text-sm text-slate-400 list-decimal list-inside">
+              <div className="bg-muted border-2 border-border p-4 mb-6">
+                <h3 className="font-bold text-lg mb-3 uppercase">How it works:</h3>
+                <ol className="space-y-2 text-base font-medium list-decimal list-inside">
                   <li>Click "Send Token to Extension" below</li>
                   <li>Your authentication token is securely stored in the extension</li>
                   <li>The extension includes this token in all API requests</li>
@@ -330,8 +288,8 @@ export default function DashboardPage() {
                 </ol>
               </div>
 
-              <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 mb-6">
-                <p className="text-sm text-blue-200">
+              <div className="bg-blue-100 border-2 border-border p-4 mb-6">
+                <p className="text-base font-medium text-blue-900">
                   💡 <strong>Tip:</strong> Make sure the ReplyDash Chrome extension is installed and this browser window is open.
                 </p>
               </div>
@@ -339,62 +297,120 @@ export default function DashboardPage() {
               <button
                 onClick={sendTokenToExtension}
                 disabled={tokenLoading}
-                className="w-full px-6 py-3 bg-linear-to-r from-green-500 to-emerald-500 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-green-500/30 transition disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none"
+                className="w-full px-6 py-4 bg-[#10B981] text-white font-bold text-lg border-2 border-border shadow-brutal hover-lift transition disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-brutal uppercase"
               >
                 {tokenLoading ? '⏳ Sending...' : '🔐 Send Token to Extension'}
               </button>
             </div>
           </div>
 
-          {/* Account Info */}
-          <div>
-            <div className="bg-linear-to-br from-slate-800 to-slate-900 rounded-xl border border-slate-700 p-6 sticky top-28 backdrop-blur-md">
-              <h2 className="text-xl font-bold text-white mb-6">Account Info</h2>
+          {/* Sidebar */}
+          <div className="space-y-8">
+            {/* Tone Selector */}
+            <div className="bg-card border-2 border-border shadow-brutal-lg p-8 relative">
+              {/* Mascot */}
+              <div className="absolute -top-6 -right-6 text-6xl animate-brutal-wiggle">
+                🤖
+              </div>
+              
+              <h2 className="text-3xl font-bold font-grotesk mb-4 uppercase">Reply Tone</h2>
+              <p className="text-base font-medium mb-6">
+                Choose your style
+              </p>
+
+              <div className="space-y-4">
+                <button
+                  onClick={() => setTone('funny')}
+                  className={`w-full p-6 border-2 border-border text-left transition-all ${
+                    tone === 'funny'
+                      ? 'bg-accent text-accent-foreground shadow-brutal-lg -translate-x-1 -translate-y-1'
+                      : 'bg-muted shadow-brutal hover-lift'
+                  }`}
+                >
+                  <div className="flex items-start gap-3">
+                    <span className="text-3xl">😏</span>
+                    <div>
+                      <h3 className="font-bold text-xl font-grotesk uppercase mb-1">
+                        Funny
+                      </h3>
+                      <p className="text-sm font-medium">
+                        Witty replies that spark engagement
+                      </p>
+                    </div>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => setTone('value')}
+                  className={`w-full p-6 border-2 border-border text-left transition-all ${
+                    tone === 'value'
+                      ? 'bg-secondary text-secondary-foreground shadow-brutal-lg -translate-x-1 -translate-y-1'
+                      : 'bg-muted shadow-brutal hover-lift'
+                  }`}
+                >
+                  <div className="flex items-start gap-3">
+                    <span className="text-3xl">💎</span>
+                    <div>
+                      <h3 className="font-bold text-xl font-grotesk uppercase mb-1">
+                        Value
+                      </h3>
+                      <p className="text-sm font-medium">
+                        Insightful, professional replies
+                      </p>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            {/* Account Info */}
+            <div className="bg-card border-2 border-border shadow-brutal-lg p-6">
+              <h2 className="text-2xl font-bold font-grotesk mb-6 uppercase">Account Info</h2>
 
               <div className="space-y-5">
                 <div>
-                  <label className="block text-sm font-semibold text-slate-400 mb-2">
+                  <label className="block text-sm font-bold text-muted-foreground mb-2 uppercase">
                     Name
                   </label>
-                  <p className="text-white font-medium">
+                  <p className="font-bold text-lg">
                     {user?.firstName} {user?.lastName}
                   </p>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-slate-400 mb-2">
+                  <label className="block text-sm font-bold text-muted-foreground mb-2 uppercase">
                     Email
                   </label>
-                  <p className="text-white font-medium break-all">
+                  <p className="font-medium break-all">
                     {user?.primaryEmailAddress?.emailAddress}
                   </p>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-slate-400 mb-2">
+                  <label className="block text-sm font-bold text-muted-foreground mb-2 uppercase">
                     Joined
                   </label>
-                  <p className="text-white font-medium">
+                  <p className="font-medium">
                     {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-slate-700">
-                  <label className="block text-sm font-semibold text-slate-400 mb-2">
+                <div className="pt-4 border-t-2 border-border">
+                  <label className="block text-sm font-bold text-muted-foreground mb-2 uppercase">
                     Plan
                   </label>
-                  <p className="text-lg font-bold bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                  <p className="text-2xl font-bold font-grotesk text-primary">
                     Pro
                   </p>
-                  <p className="text-xs text-slate-400 mt-1">Unlimited access</p>
+                  <p className="text-sm font-medium text-muted-foreground mt-1">Unlimited access</p>
                 </div>
               </div>
 
-              <hr className="my-6 border-slate-700" />
+              <hr className="my-6 border-2 border-border" />
 
               <Link
                 href="/"
-                className="block w-full text-center px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white transition rounded-lg"
+                className="block w-full text-center px-4 py-3 bg-muted hover:bg-muted/80 border-2 border-border shadow-brutal hover-lift transition font-bold uppercase"
               >
                 ← Back to Home
               </Link>
