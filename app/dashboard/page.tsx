@@ -400,9 +400,9 @@ export default function DashboardPage() {
                     Plan
                   </label>
                   <p className="text-2xl font-bold font-grotesk text-primary">
-                    Pro
+                    {user?.publicMetadata?.plan === 'pro' ? 'Pro' : 'Free'}
                   </p>
-                  <p className="text-sm font-medium text-muted-foreground mt-1">Unlimited access</p>
+                  <p className="text-sm font-medium text-muted-foreground mt-1">{user?.publicMetadata?.plan === 'pro' ? 'Unlimited access' : 'Limited access'}</p>
                 </div>
               </div>
 
