@@ -158,7 +158,7 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-background grid-pattern">
       <nav className="border-b-2 border-border bg-card sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <Link href="/" className="flex items-center gap-3">
             <div className="text-3xl">💬</div>
             <span className="text-2xl font-bold font-grotesk">
@@ -166,7 +166,7 @@ export default function DashboardPage() {
             </span>
           </Link>
           <div className="flex items-center gap-4">
-            <span className="text-sm font-medium px-4 py-2 bg-muted border-2 border-border shadow-brutal-sm">by Elcara</span>
+            <span className="text-sm font-medium px-4 py-2 bg-muted border-2 border-border shadow-brutal-sm"><a href="https://elcara.xyz" target="_blank" rel="noopener noreferrer">by Elcara</a></span>
             <UserButton appearance={{
               elements: {
                 rootBox: "text-slate-200"
