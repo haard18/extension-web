@@ -57,6 +57,16 @@ body {
 .shadow-brutal-sm {
   box-shadow: 2px 2px 0 0 var(--border);
 }
+.cl-pricingTable .cl-planCard:nth-child(1) {
+  background: #f1f1f1;
+}
+.cl-pricingTable .cl-planCard:nth-child(2) {
+  background: #ffeedd;
+}
+.cl-pricingTable .cl-planCard:nth-child(3) {
+  background: #d1f7ff;
+}
+
 
 .shadow-brutal-lg {
   box-shadow: 8px 8px 0 0 var(--border);
