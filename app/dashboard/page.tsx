@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
 import Image from "next/image";
+import { SubscriptionDetailsButton } from "@clerk/nextjs/experimental";
 
 interface UsageStats {
   usage_count: number;
@@ -352,12 +353,10 @@ export default function DashboardPage() {
                   },
                 },
               }}
-              
               ctaPosition="bottom"
               collapseFeatures={false}
               for="user"
             />
-
             {/* Connect Extension */}
             <div className="bg-card border-2 border-border shadow-brutal-lg p-8">
               <div className="flex items-center gap-3 mb-4">
@@ -502,17 +501,12 @@ export default function DashboardPage() {
                 </div>
 
                 <div className="pt-4 border-t-2 border-border">
-                  <label className="block text-sm font-bold text-muted-foreground mb-2 uppercase">
-                    Plan
-                  </label>
-                  <p className="text-2xl font-bold font-grotesk text-primary">
-                    {user?.publicMetadata?.plan === "pro-user" ? "Pro" : "Free"}
-                  </p>
-                  <p className="text-sm font-medium text-muted-foreground mt-1">
-                    {user?.publicMetadata?.plan === "pro-user"
-                      ? "Unlimited access"
-                      : "Limited access"}
-                  </p>
+
+                  <button
+                    className="px-4 py-2 bg-muted hover:bg-muted/80 border-2 border-border shadow-brutal hover-lift transition font-bold uppercase flex items-center gap-2"
+                  >
+                    <SubscriptionDetailsButton />
+                  </button>
                 </div>
               </div>
 
