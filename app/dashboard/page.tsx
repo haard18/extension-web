@@ -5,6 +5,7 @@ import { PricingTable, useAuth, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
+import Image from "next/image";
 
 interface UsageStats {
   usage_count: number;
@@ -180,7 +181,7 @@ export default function DashboardPage() {
       <nav className="border-b-2 border-border bg-card sticky top-0 z-50">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <Link href="/" className="flex items-center gap-3">
-            <div className="text-3xl">💬</div>
+            <Image src="/image.png" alt="Logo" width={32} height={32} />
             <span className="text-2xl font-bold font-grotesk">ReplyDash</span>
           </Link>
           <div className="flex items-center gap-4">

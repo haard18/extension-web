@@ -3,7 +3,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Replier - AI Reply Generator",
+
+  title: "ReplyDash",
   description: "Generate AI-powered replies for LinkedIn and X (Twitter)",
 };
 
