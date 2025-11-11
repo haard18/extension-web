@@ -506,10 +506,10 @@ export default function DashboardPage() {
                     Plan
                   </label>
                   <p className="text-2xl font-bold font-grotesk text-primary">
-                    {user?.publicMetadata?.plan === "pro" ? "Pro" : "Free"}
+                    {user?.publicMetadata?.plan === "pro-user" ? "Pro" : "Free"}
                   </p>
                   <p className="text-sm font-medium text-muted-foreground mt-1">
-                    {user?.publicMetadata?.plan === "pro"
+                    {user?.publicMetadata?.plan === "pro-user"
                       ? "Unlimited access"
                       : "Limited access"}
                   </p>
