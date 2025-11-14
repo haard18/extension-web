@@ -23,7 +23,7 @@ export default function Home() {
               </Link>
               <Link
                 href="/sign-up"
-                className="px-6 py-2 bg-primary text-primary-foreground border-2 border-border shadow-brutal hover-lift font-bold uppercase"
+                className="px-6 py-2 bg-accent text-accent-foreground border-2 border-border shadow-brutal hover-lift font-bold uppercase"
               >
                 Get Started
               </Link>
@@ -63,21 +63,33 @@ export default function Home() {
             </div>
 
             <h1 className="text-6xl md:text-8xl font-bold font-grotesk mb-8 leading-tight uppercase tracking-tight">
-              Turn scrolling into{" "}
+              AI-powered replies{" "}
               <span className="inline-block bg-primary text-primary-foreground px-4 py-2 -rotate-1 border-2 border-border shadow-brutal">
-                smart replies
+                in seconds
               </span>
             </h1>
 
-            <p className="text-xl md:text-2xl font-medium mb-10 max-w-2xl mx-auto">
-              ReplyDash automatically crafts witty or value-packed replies to
-              posts on LinkedIn and X.
+            <p className="text-xl md:text-2xl font-medium mb-4 max-w-2xl mx-auto">
+              Never struggle with replies again. Generate smart, engaging responses to LinkedIn and X posts with one click.
             </p>
+
+            {/* USP Highlights */}
+            <div className="flex flex-wrap justify-center gap-4 mb-10 max-w-3xl mx-auto">
+              <span className="px-4 py-2 bg-secondary text-secondary-foreground border-2 border-border shadow-brutal font-bold text-sm uppercase">
+                ⚡ Instant Replies
+              </span>
+              <span className="px-4 py-2 bg-accent text-accent-foreground border-2 border-border shadow-brutal font-bold text-sm uppercase">
+                🎯 Tone Switching
+              </span>
+              <span className="px-4 py-2 bg-primary text-primary-foreground border-2 border-border shadow-brutal font-bold text-sm uppercase">
+                📊 Usage Tracking
+              </span>
+            </div>
 
             <SignedOut>
               <Link href="/sign-up">
                 <button className="bg-accent text-accent-foreground border-2 border-border shadow-brutal-lg hover-lift font-bold text-lg px-12 py-8 uppercase">
-                  Get Started Now →
+                  Start Free →
                 </button>
               </Link>
             </SignedOut>
@@ -163,9 +175,15 @@ export default function Home() {
           </div>
         </section>
 
-        {/* CTA Section */}
-        <div className="flex justify-center">
-          <div className="w-[50%]">
+        {/* Pricing Section */}
+        <section className="py-20">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-bold font-grotesk text-center mb-6 uppercase">
+              Simple, Transparent Pricing
+            </h2>
+            <p className="text-xl text-center mb-12 font-medium">
+              Start free, upgrade when you need more replies
+            </p>
             <PricingTable
               appearance={{
                 variables: {
@@ -211,31 +229,7 @@ export default function Home() {
               ctaPosition="bottom"
               collapseFeatures={false}
               for="user"
-            />{" "}
-          </div>
-        </div>
-        <section className="py-20">
-          <div className="max-w-3xl mx-auto text-center bg-foreground text-background border-2 border-border shadow-brutal-lg p-12 rotate-1">
-            <h2 className="text-4xl md:text-5xl font-bold font-grotesk mb-6 uppercase">
-              Ready to reply smarter?
-            </h2>
-            <p className="text-xl mb-8 opacity-90">
-              Join thousands of professionals saving time on LinkedIn and X
-            </p>
-            <SignedOut>
-              <Link href="/sign-up">
-                <button className="bg-secondary text-secondary-foreground border-2 border-background shadow-[4px_4px_0_0_#FAFAFA] hover:shadow-[2px_2px_0_0_#FAFAFA] hover:translate-x-[-2px] hover:translate-y-[-2px] font-bold text-lg px-10 py-7 uppercase transition-all">
-                  Start Now →
-                </button>
-              </Link>
-            </SignedOut>
-            <SignedIn>
-              <Link href="/dashboard">
-                <button className="bg-secondary text-secondary-foreground border-2 border-background shadow-[4px_4px_0_0_#FAFAFA] hover:shadow-[2px_2px_0_0_#FAFAFA] hover:translate-x-[-2px] hover:translate-y-[-2px] font-bold text-lg px-10 py-7 uppercase transition-all">
-                  Go to Dashboard →
-                </button>
-              </Link>
-            </SignedIn>
+            />
           </div>
         </section>
       </main>

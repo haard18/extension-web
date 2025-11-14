@@ -230,6 +230,41 @@ export default function DashboardPage() {
 
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
+            {/* Connect Extension - Primary CTA */}
+            <div className="bg-linear-to-br from-[#10B981] to-[#059669] border-2 border-border shadow-brutal-lg p-8 text-white">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-14 h-14 bg-white text-[#10B981] border-2 border-border shadow-brutal-sm flex items-center justify-center text-2xl">
+                  🚀
+                </div>
+                <h2 className="text-3xl font-bold font-grotesk uppercase">
+                  Activate Extension
+                </h2>
+              </div>
+
+              <p className="text-lg font-medium mb-6 text-white/90">
+                Click the button below to connect your Chrome extension and start generating AI replies instantly!
+              </p>
+
+              <button
+                onClick={sendTokenToExtension}
+                disabled={tokenLoading}
+                className="w-full px-6 py-6 bg-white text-[#10B981] font-bold text-xl border-2 border-border shadow-brutal-lg hover-lift transition disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-brutal uppercase mb-6"
+              >
+                {tokenLoading ? "⏳ Connecting..." : "⚡ Connect Extension Now"}
+              </button>
+
+              <div className="bg-white/10 border-2 border-white/20 p-4 backdrop-blur-sm">
+                <h3 className="font-bold text-base mb-3 uppercase flex items-center gap-2">
+                  <span>📋</span> Quick Setup:
+                </h3>
+                <ol className="space-y-2 text-sm font-medium list-decimal list-inside text-white/90">
+                  <li>Install the ReplyDash Chrome extension</li>
+                  <li>Click "Connect Extension Now" above</li>
+                  <li>Start generating replies on LinkedIn & X!</li>
+                </ol>
+              </div>
+            </div>
+
             {/* Usage Stats */}
             <div className="bg-card border-2 border-border shadow-brutal-lg p-8">
               <div className="flex items-center gap-3 mb-8">
@@ -310,98 +345,6 @@ export default function DashboardPage() {
               ) : (
                 <p className="text-muted-foreground">Loading usage data...</p>
               )}
-            </div>
-            <PricingTable
-              appearance={{
-                variables: {
-                  colorPrimary: "#6B5BFF", // Elcara purple
-                  colorBackground: "#FDFDFD",
-                  colorText: "#000000",
-                  colorBorder: "#000000",
-                  borderRadius: "0px",
-                  fontFamily: '"Instrument Sans", "Inter", sans-serif',
-                },
-                elements: {
-                  pricingTable: {
-                    className:
-                      "border-4 border-black bg-white shadow-[6px_6px_0_0_#000] p-6 font-grotesk",
-                  },
-                  planCard: {
-                    className:
-                      "border-2 border-black bg-[#F8F8F8] shadow-[4px_4px_0_0_#000] hover:-translate-x-1 hover:-translate-y-1 transition-transform duration-150",
-                  },
-                  planName: {
-                    className: "font-extrabold uppercase text-xl text-black",
-                  },
-                  planPrice: {
-                    className: "text-5xl font-extrabold text-black",
-                  },
-                  planFeatureList: {
-                    className: "border-t-2 border-black mt-4 pt-4 space-y-2",
-                  },
-                  planFeature: {
-                    className:
-                      "text-base font-medium text-black flex items-center gap-2 before:content-['☑️']",
-                  },
-                  ctaButton: {
-                    className:
-                      "w-full bg-[#FACC15] text-black border-2 border-black py-3 font-bold uppercase hover:-translate-x-1 hover:-translate-y-1 transition-transform shadow-[3px_3px_0_0_#000]",
-                  },
-                  header: {
-                    className:
-                      "text-4xl font-extrabold uppercase mb-6 text-black",
-                  },
-                },
-              }}
-              ctaPosition="bottom"
-              collapseFeatures={false}
-              for="user"
-            />
-            {/* Connect Extension */}
-            <div className="bg-card border-2 border-border shadow-brutal-lg p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-14 h-14 bg-[#10B981] border-2 border-border shadow-brutal-sm flex items-center justify-center text-2xl">
-                  ⚡
-                </div>
-                <h2 className="text-3xl font-bold font-grotesk uppercase">
-                  Connect Extension
-                </h2>
-              </div>
-
-              <p className="text-lg font-medium mb-6">
-                Send your authentication token to your Chrome extension. This
-                enables secure communication with the backend API.
-              </p>
-
-              <div className="bg-muted border-2 border-border p-4 mb-6">
-                <h3 className="font-bold text-lg mb-3 uppercase">
-                  How it works:
-                </h3>
-                <ol className="space-y-2 text-base font-medium list-decimal list-inside">
-                  <li>Click "Send Token to Extension" below</li>
-                  <li>
-                    Your authentication token is securely stored in the
-                    extension
-                  </li>
-                  <li>The extension includes this token in all API requests</li>
-                  <li>Your replies and quota are tracked in real-time</li>
-                </ol>
-              </div>
-
-              <div className="bg-blue-100 border-2 border-border p-4 mb-6">
-                <p className="text-base font-medium text-blue-900">
-                  💡 <strong>Tip:</strong> Make sure the ReplyDash Chrome
-                  extension is installed and this browser window is open.
-                </p>
-              </div>
-
-              <button
-                onClick={sendTokenToExtension}
-                disabled={tokenLoading}
-                className="w-full px-6 py-4 bg-[#10B981] text-white font-bold text-lg border-2 border-border shadow-brutal hover-lift transition disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-brutal uppercase"
-              >
-                {tokenLoading ? "⏳ Sending..." : "🔐 Send Token to Extension"}
-              </button>
             </div>
           </div>
 
@@ -501,25 +444,77 @@ export default function DashboardPage() {
                 </div>
 
                 <div className="pt-4 border-t-2 border-border">
-
-                  <button
-                    className="px-4 py-2 bg-muted hover:bg-muted/80 border-2 border-border shadow-brutal hover-lift transition font-bold uppercase flex items-center gap-2"
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-sm font-bold text-muted-foreground uppercase">Plan Status</span>
+                    <div className="px-3 py-1 bg-primary text-primary-foreground border-2 border-border shadow-brutal-sm text-xs font-bold uppercase">
+                      {usage && usage.daily_goal > 10 ? "PRO" : "FREE"}
+                    </div>
+                  </div>
+                  <span
+                    className="w-full px-4 py-2 bg-muted hover:bg-muted/80 border-2 border-border shadow-brutal hover-lift transition font-bold uppercase flex items-center justify-center gap-2"
                   >
                     <SubscriptionDetailsButton />
-                  </button>
+                  </span>
                 </div>
               </div>
-
-              <hr className="my-6 border-2 border-border" />
-
-              <Link
-                href="/"
-                className="block w-full text-center px-4 py-3 bg-muted hover:bg-muted/80 border-2 border-border shadow-brutal hover-lift transition font-bold uppercase"
-              >
-                ← Back to Home
-              </Link>
             </div>
           </div>
+        </div>
+
+        {/* Pricing Section - Full Width Below */}
+        <div className="mt-16">
+          <h2 className="text-4xl md:text-5xl font-bold font-grotesk text-center mb-6 uppercase">
+            Need More Replies?
+          </h2>
+          <p className="text-xl text-center mb-12 font-medium">
+            Upgrade your plan to unlock higher limits
+          </p>
+          <PricingTable
+              appearance={{
+                variables: {
+                  colorPrimary: "#6B5BFF", // Elcara purple
+                  colorBackground: "#FDFDFD",
+                  colorText: "#000000",
+                  colorBorder: "#000000",
+                  borderRadius: "0px",
+                  fontFamily: '"Instrument Sans", "Inter", sans-serif',
+                },
+                elements: {
+                  pricingTable: {
+                    className:
+                      "border-4 border-black bg-white shadow-[6px_6px_0_0_#000] p-6 font-grotesk",
+                  },
+                  planCard: {
+                    className:
+                      "border-2 border-black bg-[#F8F8F8] shadow-[4px_4px_0_0_#000] hover:-translate-x-1 hover:-translate-y-1 transition-transform duration-150",
+                  },
+                  planName: {
+                    className: "font-extrabold uppercase text-xl text-black",
+                  },
+                  planPrice: {
+                    className: "text-5xl font-extrabold text-black",
+                  },
+                  planFeatureList: {
+                    className: "border-t-2 border-black mt-4 pt-4 space-y-2",
+                  },
+                  planFeature: {
+                    className:
+                      "text-base font-medium text-black flex items-center gap-2 before:content-['☑️']",
+                  },
+                  ctaButton: {
+                    className:
+                      "w-full bg-[#FACC15] text-black border-2 border-black py-3 font-bold uppercase hover:-translate-x-1 hover:-translate-y-1 transition-transform shadow-[3px_3px_0_0_#000]",
+                  },
+                  header: {
+                    className:
+                      "text-4xl font-extrabold uppercase mb-6 text-black",
+                  },
+                },
+              }}
+              ctaPosition="bottom"
+              collapseFeatures={false}
+              for="user"
+            />
         </div>
       </main>
     </div>
