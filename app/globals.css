@@ -2,19 +2,19 @@
 @import "tailwindcss";
 
 :root {
-  --background: #FAFAFA;
-  --foreground: #0F172A;
+  --background: #FFFFFF;
+  --foreground: #1E293B;
   --card: #FFFFFF;
-  --card-foreground: #0F172A;
+  --card-foreground: #1E293B;
   --primary: #3B82F6;
   --primary-foreground: #FFFFFF;
   --secondary: #F59E0B;
-  --secondary-foreground: #0F172A;
+  --secondary-foreground: #1E293B;
   --accent: #8B5CF6;
   --accent-foreground: #FFFFFF;
-  --muted: #F1F5F9;
+  --muted: #F8FAFC;
   --muted-foreground: #64748B;
-  --border: #0F172A;
+  --border: #E2E8F0;
 }
 
 @theme inline {
@@ -39,16 +39,15 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: 'Space Grotesk', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
-
-/* Grid Pattern Background */
 .grid-pattern {
   background-image: 
     linear-gradient(to right, rgba(15, 23, 42, 0.05) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(15, 23, 42, 0.05) 1px, transparent 1px);
   background-size: 20px 20px;
 }
-
 /* Brutal Shadow Utilities */
 .shadow-brutal {
   box-shadow: 4px 4px 0 0 var(--border);
