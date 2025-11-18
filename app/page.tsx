@@ -226,8 +226,23 @@ export default function Home() {
                   <p className="text-muted-foreground mb-2">
                     A "Generate Reply" button appears below each LinkedIn or X post
                   </p>
-                  <div className="inline-block bg-primary text-primary-foreground px-6 py-3 font-semibold mt-4">
-                    🧠 Generate Reply
+                  <div className="inline-flex items-center justify-center mt-4">
+                    <button className="w-10 h-10 bg-black hover:bg-gray-800 rounded-full flex items-center justify-center border-2 border-black transition-all hover:scale-105">
+                      <svg 
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20" 
+                        height="20" 
+                        viewBox="0 0 24 24"
+                        fill="none" 
+                        stroke="white" 
+                        strokeWidth="2"
+                        strokeLinecap="round" 
+                        strokeLinejoin="round"
+                      >
+                        <circle cx="12" cy="12" r="9"></circle>
+                        <path d="M13 6l-5 6h4l-1 6 5-6h-4z"></path>
+                      </svg>
+                    </button>
                   </div>
                 </div>
                 <p className="text-sm text-muted-foreground">
