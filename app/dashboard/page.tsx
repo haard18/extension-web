@@ -89,7 +89,10 @@ export default function DashboardPage() {
       const { token } = await response.json();
       
       // Get company ID from localStorage (set by knowledge page)
-      const companyId = localStorage.getItem('companyId') || userId || '';
+      // Only use it if it's a valid UUID format, otherwise don't send it
+      const storedCompanyId = localStorage.getItem('companyId');
+      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      const companyId = storedCompanyId && uuidRegex.test(storedCompanyId) ? storedCompanyId : '';
 
       const tokenPromise = new Promise<void>((resolve, reject) => {
         let messageHandler: ((event: MessageEvent) => void) | null = null;
