@@ -87,6 +87,9 @@ export default function DashboardPage() {
       }
 
       const { token } = await response.json();
+      
+      // Get company ID from localStorage (set by knowledge page)
+      const companyId = localStorage.getItem('companyId') || userId || '';
 
       const tokenPromise = new Promise<void>((resolve, reject) => {
         let messageHandler: ((event: MessageEvent) => void) | null = null;
@@ -134,6 +137,7 @@ export default function DashboardPage() {
             type: "REPLIER_EXTENSION",
             action: "STORE_TOKEN",
             token: token,
+            companyId: companyId, // Include company ID
           },
           window.location.origin
         );
@@ -187,6 +191,12 @@ export default function DashboardPage() {
               <span className="text-xl md:text-2xl font-bold font-grotesk">ReplyDash</span>
             </Link>
             <div className="flex items-center gap-4">
+              <Link
+                href="/knowledge"
+                className="text-sm font-medium hover:text-primary transition"
+              >
+                Knowledge 🧠
+              </Link>
               <span className="text-sm font-medium">
                 <a
                   href="https://elcara.xyz"
@@ -234,6 +244,40 @@ export default function DashboardPage() {
 
           <div className="grid lg:grid-cols-3 gap-6 md:gap-8">
             <div className="lg:col-span-2 space-y-6 md:space-y-8">
+              {/* Company Knowledge - NEW Feature */}
+              <div className="bg-linear-to-br from-[#8B5CF6] to-[#6D28D9] border border-border p-6 md:p-8 text-white shadow-lg">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 bg-white text-[#8B5CF6] flex items-center justify-center text-2xl">
+                    🧠
+                  </div>
+                  <h2 className="text-2xl md:text-3xl font-bold font-grotesk">
+                    NEW: Company Knowledge
+                  </h2>
+                </div>
+
+                <p className="text-base md:text-lg mb-6 text-white/90 leading-relaxed">
+                  Upload your company documents and generate contextual, on-brand replies that reference your specific knowledge!
+                </p>
+
+                <Link href="/knowledge">
+                  <button className="w-full px-6 py-4 bg-white text-[#8B5CF6] font-semibold text-base md:text-lg hover:bg-white/90 transition mb-4">
+                    🚀 Set Up Company Knowledge
+                  </button>
+                </Link>
+
+                <div className="bg-white/10 border border-white/20 p-4 backdrop-blur-sm">
+                  <h3 className="font-bold text-base mb-3 flex items-center gap-2">
+                    <span>✨</span> What You Can Do:
+                  </h3>
+                  <ul className="space-y-2 text-sm text-white/90 list-disc list-inside">
+                    <li>Upload PDFs, DOCX, TXT files, or URLs</li>
+                    <li>Set your company voice and brand guidelines</li>
+                    <li>Generate replies that reference your docs</li>
+                    <li>Keep replies on-brand and contextual</li>
+                  </ul>
+                </div>
+              </div>
+
               {/* Connect Extension - Primary CTA */}
               <div className="bg-linear-to-br from-[#10B981] to-[#059669] border border-border p-6 md:p-8 text-white shadow-lg">
                 <div className="flex items-center gap-3 mb-4">
